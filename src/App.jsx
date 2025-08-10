@@ -9,7 +9,7 @@ import Skills from './pages/Skills'
 
 function App() {
   return (  
-    <div className="min-h-screen pt-[90px] bg-gradient-to-t from-indigo-900 via-sky-500 to-sky-300 text-white">
+    <div className="min-h-screen pt-[90px] bg-gradient-to-t from-indigo-950 via-sky-500 to-sky-300 text-white">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
