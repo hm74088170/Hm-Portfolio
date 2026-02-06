@@ -1,84 +1,100 @@
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { Link } from "react-router-dom";
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "projects"));
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProjects(data);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) {
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="p-8"
-        >
-            <h2 className="text-4xl font-mono font-bold md:ml-[52px] m-[30px] ml-[12px] text-blue-950">Projects</h2>
-            <div className="flex flex-col lg:flex-row flex-wrap justify-center items-center lg:gap-[110px] gap-6">
-                
-                <div className="bg-white w-full max-w-[500px] lg:w-[300px] rounded-xl shadow overflow-auto">
-                    <div className="h-[200px] w-full bg-gray-200 overflow-hidden">
-                        <img
-                            src="/blog.jpg"
-                            alt="Blog preview"
-                            className="w-full h-full object-cover rounded transition-transform duration-300 hover:scale-105"
-                        />
-                    </div>
-                    <div className="p-4 space-y-2">
-                        <h3 className="text-xl text-black font-semibold">Blogging App</h3>
-                        <p className="text-sm text-gray-600">
-                            React + Firebase based blog app with authentication & CRUD features.
-                        </p>
-                        <div className="flex justify-end">
-                            <a href="https://theormi-blogs.vercel.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-2 bg-blue-900 text-white px-4 py-1 border border-black/35 rounded-xl hover:bg-blue-700">Visit</a>
-                        </div>
-                    </div>
+      <p className="text-center text-slate-800 mt-10 font-mono">
+        Loading projects...
+      </p>
+    );
+  }
+
+  return (
+    <>
+    <Link to="/" className="flex justify-center text-2xl bg-slate-50 w-full">Home</Link>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="p-8 min-h-screen bg-slate-50"
+    >
+      <h2 className="text-4xl md:text-5xl font-mono font-bold text-slate-800 text-center mb-10">
+        Projects
+      </h2>
+
+      {projects.length === 0 ? (
+        <p className="text-center text-slate-700 font-mono">
+          No projects found.
+        </p>
+      ) : (
+        <div className="flex flex-wrap justify-center gap-8">
+          {projects.map(project => (
+            <div
+              key={project.id}
+              className="bg-white w-full max-w-sm rounded-2xl shadow-lg overflow-hidden flex flex-col"
+            >
+              <div className="h-56 bg-gray-200 overflow-hidden rounded-t-2xl">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              <div className="p-5 flex flex-col justify-between flex-1">
+                <div className="space-y-2">
+                  <h3 className="text-xl font-semibold text-slate-800">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-slate-600">
+                    {project.description}
+                  </p>
                 </div>
 
-                
-                <div className="bg-white w-full max-w-[500px] lg:w-[300px] rounded-xl shadow overflow-auto">
-                    <div className="h-[200px] w-full bg-gray-200 overflow-hidden">
-                        <img
-                            src="/portfolio.jpg"
-                            alt="portfolio preview"
-                            className="w-full h-full object-cover rounded transition-transform duration-300 hover:scale-105"
-                        />
-                    </div>
-                    <div className="p-4 space-y-2">
-                        <h3 className="text-xl text-black font-semibold">Portfolio Website</h3>
-                        <p className="text-sm text-gray-600">
-                            This portfolio itself – built with Vite, React, Tailwind, Framer Motion, and React Router.
-                        </p>
-                        <div className="flex justify-end">
-                            <a href="" className="mt-2 bg-blue-900 text-white px-4 py-1 border border-black/35 rounded-xl hover:bg-blue-700">Visit</a>
-                        </div>
-                    </div>
+                <div className="flex justify-end mt-4">
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700 transition-colors"
+                  >
+                    Visit
+                  </a>
                 </div>
-
-                
-                <div className="bg-white w-full max-w-[500px] lg:w-[300px] rounded-xl shadow overflow-auto">
-                    <div className="h-[200px] w-full bg-gray-200 overflow-hidden">
-                        <img
-                            src="/rec.jpg"
-                            alt="recepie preview"
-                            className="w-full h-full object-cover rounded transition-transform duration-300 hover:scale-105"
-                        />
-                    </div>
-                    <div className="p-4 space-y-2">
-                        <h3 className="text-xl text-black font-semibold">Food-Recipe</h3>
-                        <p className="text-sm text-gray-600">
-                            Implemented React functional components with hooks, using fetch API for data.
-                        </p>
-                        <div className="flex justify-end">
-                            <a href="https://github.com/hm74088170/food-recipe"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-2 bg-blue-900 text-white px-4 py-1 border border-black/35 rounded-xl hover:bg-blue-700">Visit</a>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </motion.div>
+          ))}
+        </div>
+      )}
+    </motion.div>
+    </>
+  );
+};
 
-    )
-}
-
-export default Projects
+export default Projects;
