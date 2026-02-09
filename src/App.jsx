@@ -9,6 +9,7 @@ import Skills from "./pages/Skills";
 import AdminLogin from "./pages/AdminLogin";
 import AdminProjects from "./pages/AdminProjects";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./pages/footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/skills" element={<Skills/>}/>
+        <Route path="/footer" element={<Footer/>}/>
         <Route
           path="/admin/projects"
           element={
