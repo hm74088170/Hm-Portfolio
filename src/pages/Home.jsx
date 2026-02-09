@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Footer from "./footer";
 
 const Home = () => {
   return (
@@ -29,16 +30,16 @@ const Home = () => {
               </div>
             </Link>
             <Link
-              to="/skills"
+              to="/resume"
               className="group relative h-64 md:w-1/3 w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition"
             >
               <img
                 src="/2.jpg"
-                alt="Skills"
+                alt="Resume"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform"
               />
               <div className="absolute bottom-4 left-4 text-black text-4xl font-mono font-light drop-shadow">
-                Skills
+                Resume
               </div>
             </Link>
             <Link
@@ -73,6 +74,7 @@ const Home = () => {
           </p>
         </motion.div>
       </div>
+      <Footer/>
     </div>
   );
 };

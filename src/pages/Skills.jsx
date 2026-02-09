@@ -24,7 +24,6 @@ const Skills = () => {
 
   return (
     <>
-    <Link to="/" className="flex justify-center text-2xl bg-slate-50 w-full">Home</Link>
     <div className="min-h-screen bg-slate-50 flex flex-col items-center px-4 py-12 space-y-12">
    
       <div className="w-full max-w-xl">

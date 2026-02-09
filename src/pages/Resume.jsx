@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { PiReadCvLogoBold } from "react-icons/pi";
 import { FaDownload } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import Skills from "./Skills";
 
 const Resume = () => {
   return (
@@ -34,6 +35,7 @@ const Resume = () => {
           Download Resume <FaDownload size={18} />
         </a>
       </div>
+      <Skills/>
     </motion.div>
     </>
   );
